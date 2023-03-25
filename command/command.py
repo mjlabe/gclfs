@@ -1,9 +1,13 @@
 import os
+from storage.upload import cloud_upload
 
 
-def pass_command(command, param=None):
-    print(command, param)
-    if param:
-        os.system(f"git {command} {param}")
-    else:
-        os.system(f"git {command}")
+def handle_command(ctx, s):
+    print(ctx, s)
+    command = ""
+    for cmd in ctx:
+        command += f"{cmd} "
+    print(command)
+    os.system(f"git {command}")
+    if command == "commit":
+        cloud_upload(s)
