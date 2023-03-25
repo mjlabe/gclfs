@@ -11,8 +11,8 @@ setup(
     python_requires='>=3.6',
     entry_points={
         'console_scripts': [
-            'gcl = gclfs:cli',
-            'gclfs = gclfs:cli',
+            'gcl = main:cli',
+            'gclfs = main:cli',
         ],
     },
 )

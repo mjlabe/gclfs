@@ -1,7 +1,6 @@
-import os
-
 import click
-from storage.upload import cloud_upload
+
+from gclfs.commands import handle_command, track
 
 
 @click.command(name='ctx', context_settings=dict(
@@ -15,13 +14,10 @@ from storage.upload import cloud_upload
               help="AWS S3 Storage")
 @click.pass_context
 def cli(ctx, s):
-    print(ctx.args, s)
-    command = ""
-    for cmd in ctx.args:
-        command += f"{cmd} "
-    print(command)
-
-    if command.startswith("commit"):
-        cloud_upload(s)
-
-    os.system(f"git {command}")
+    commands = {
+        "track": track,
+    }
+    if ctx.args[0] in commands:
+        commands.get(ctx.args[0])(ctx.args)
+    else:
+        handle_command(ctx.args, s)
