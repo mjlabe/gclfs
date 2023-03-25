@@ -1,6 +1,6 @@
 import os
 
-from storage.upload import CloudSync
+from storage.sync import CloudSync
 
 
 def handle_command(args, s):
@@ -9,6 +9,7 @@ def handle_command(args, s):
     for cmd in args:
         command += f"{cmd} "
     print(command)
+    # show sync status (extra/missing files)
 
     if command.startswith("push"):
         cs = CloudSync(s)

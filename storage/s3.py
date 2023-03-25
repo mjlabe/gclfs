@@ -1,6 +1,7 @@
 import os
 import datetime
 import logging
+from configparser import ConfigParser
 
 import boto3
 from botocore.exceptions import ClientError
@@ -8,22 +9,22 @@ from botocore.exceptions import ClientError
 
 class S3Client:
     def __init__(self):
-        self.client = boto3.client('s3',
-                                   aws_access_key_id=os.environ.get("ACCESS_KEY"),
-                                   aws_secret_access_key=os.environ.get("SECRET_KEY"),
-                                   )
-        s3 = boto3.resource('s3',
-                            aws_access_key_id=os.environ.get("ACCESS_KEY"),
-                            aws_secret_access_key=os.environ.get("SECRET_KEY"),
-                            )
-        self.bucket = s3.Bucket(os.environ.get("BUCKET_NAME"))
+        self.config = ConfigParser()
+        self.config.read("gclfs.config")
+        profile = self.config.get("s3", "profile", fallback="gclfs")
+        boto3.setup_default_session(profile_name=profile)
+        self.client = boto3.client('s3')
+        self.bucket = boto3.resource('s3').Bucket(
+            self.config.get("s3", "bucket"),
+
+        )
 
     def presigned_url(self, base, file_name: str):
         """Create a pre-signed URL to upload to S3"""
 
         try:
             presigned_post = self.client.generate_presigned_post(
-                self.client[os.environ.get("BUCKET_NAME")],
+                self.client[self.config.get("s3", "bucket")],
                 file_name,
                 ExpiresIn=300
             )
@@ -34,4 +35,3 @@ class S3Client:
             })
             raise
         return presigned_post
-
