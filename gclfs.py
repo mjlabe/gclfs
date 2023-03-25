@@ -20,6 +20,8 @@ def cli(ctx, s):
     for cmd in ctx.args:
         command += f"{cmd} "
     print(command)
-    os.system(f"git {command}")
-    if command == "commit":
+
+    if command.startswith("commit"):
         cloud_upload(s)
+
+    os.system(f"git {command}")
