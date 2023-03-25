@@ -1,5 +1,7 @@
+import os
+
 import click
-from command.command import handle_command
+from storage.upload import cloud_upload
 
 
 @click.command(name='ctx', context_settings=dict(
@@ -13,5 +15,11 @@ from command.command import handle_command
               help="AWS S3 Storage")
 @click.pass_context
 def cli(ctx, s):
-    handle_command(ctx.args, s)
-
+    print(ctx.args, s)
+    command = ""
+    for cmd in ctx.args:
+        command += f"{cmd} "
+    print(command)
+    os.system(f"git {command}")
+    if command == "commit":
+        cloud_upload(s)
