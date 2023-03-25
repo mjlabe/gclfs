@@ -12,6 +12,7 @@ setup(
     entry_points={
         'console_scripts': [
             'gcl = gclfs:cli',
+            'gclfs = gclfs:cli',
         ],
     },
 )
