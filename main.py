@@ -1,6 +1,8 @@
 import os
 
 import click
+
+from gclfs.commands import handle_command
 from storage.upload import cloud_upload
 
 
@@ -15,13 +17,4 @@ from storage.upload import cloud_upload
               help="AWS S3 Storage")
 @click.pass_context
 def cli(ctx, s):
-    print(ctx.args, s)
-    command = ""
-    for cmd in ctx.args:
-        command += f"{cmd} "
-    print(command)
-
-    if command.startswith("commit"):
-        cloud_upload(s)
-
-    os.system(f"git {command}")
+    handle_command(ctx.args, s)

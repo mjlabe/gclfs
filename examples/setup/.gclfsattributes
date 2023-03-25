@@ -1,0 +1,22 @@
+{
+  "patterns": [
+    "*.wav",
+    "*.mp3"
+  ],
+  "files": [
+    {
+      "filename": {
+        "local": "<localdir>",
+        "cloud": "<clouddir>",
+        "checksum": "<md5checksum>"
+      }
+    },
+    {
+      "filename2": {
+        "local": "<localdir>",
+        "cloud": "<clouddir>",
+        "checksum": "<md5checksum>"
+      }
+    }
+  ]
+}
