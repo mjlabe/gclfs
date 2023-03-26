@@ -15,9 +15,12 @@ def cli(ctx, storage):
         "push": push,
         "pull": pull,
     }
-    if ctx.args[0] == "track":
-        track(ctx.args)
-    elif ctx.args[0] in commands:
-        commands.get(ctx.args[0])(ctx.args, storage)
-    else:
-        default(ctx.args)
+    try:
+        if ctx.args[0] == "track":
+            track(ctx.args)
+        elif ctx.args[0] in commands:
+            commands.get(ctx.args[0])(ctx.args, storage)
+        else:
+            default(ctx.args)
+    except Exception as error:
+        print(f'ERROR: Command "{" ".join(ctx.args)}" not recognized.')
