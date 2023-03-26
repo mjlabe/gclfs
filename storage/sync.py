@@ -2,6 +2,8 @@ import os
 import sys
 from configparser import ConfigParser
 
+from core.strings import slugify
+
 
 class CloudSync:
     def __init__(self, project_root, provider, ):
@@ -39,8 +41,10 @@ class CloudSync:
         bucket = self.config.get("s3", "bucket")
 
         if method == "push":
-            os.system(f"aws s3 sync '{project_root}' s3://{bucket}/ --profile {profile} {includes}")
+            os.system(
+                f'aws s3 sync "{project_root}" s3://{bucket}/{slugify(project_root.split("/")[-1])} --profile {profile} --exclude "*" {includes}')
         elif method == "pull":
-            os.system(f"aws s3 sync s3://{bucket}/ '{project_root}' --profile {profile} {includes}")
+            os.system(
+                f'aws s3 sync s3://{bucket}/{slugify(project_root.split("/")[-1])} "{project_root}" --profile {profile} --exclude "*" {includes}')
         else:
             raise Exception("Unknown sync method")
