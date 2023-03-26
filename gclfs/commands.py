@@ -5,8 +5,9 @@ from storage.sync import CloudSync
 
 
 def parse_git_command(args):
-    command = " ".join(args)
-    print(command)
+    command = ""
+    for arg in args:
+        command += f'{arg} ' if " " not in arg else f'"{arg}" '
     return command
 
 
@@ -45,5 +46,4 @@ def pull(args, storage):
 
 
 def default(args):
-    command = " ".join(args)
-    os.system(f"git {command}")
+    os.system(f"git {parse_git_command(args)}")

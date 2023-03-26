@@ -32,7 +32,7 @@ class CloudSync:
             attr_file.seek(0)
             attrs = attr_file.readlines()
             for line in attrs:
-                includes += f"--include {line.split(' ')[0]}"
+                includes += f"--include {line.split(' ')[0]} "
 
         if not includes:
             sys.exit('WARNING: No files tracked. Track files with `gcl track "*.<ext>"`.')
