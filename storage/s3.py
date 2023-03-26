@@ -16,7 +16,6 @@ class S3Client:
         self.client = boto3.client('s3')
         self.bucket = boto3.resource('s3').Bucket(
             self.config.get("s3", "bucket"),
-
         )
 
     def presigned_url(self, base, file_name: str):

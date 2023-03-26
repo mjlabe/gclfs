@@ -6,22 +6,20 @@ from storage.sync import CloudSync
 
 def parse_git_command(args, s=None):
     print(args, s)
-    command = ""
-    for cmd in args:
-        command += f"{cmd} "
+    command = " ".join(args)
     print(command)
     return command
 
 
-def track(args):
-    attr_file = open(".gitattributes", "a+")
-    attr_file.seek(0)
-    attrs = attr_file.readlines()
-    for line in attrs:
-        if line.startswith(args[1]):
-            print(f'"{args[1]}" already supported')
-            return
-    attr_file.write(f"{args[1]} filter=gclfs diff=gclfs merge=gclfs -text\n")
+def track(args, s=None):
+    with open(".gitattributes", "a+") as attr_file:
+        attr_file.seek(0)
+        attrs = attr_file.readlines()
+        for line in attrs:
+            if line.startswith(args[1]):
+                print(f'"{args[1]}" already supported')
+                return
+        attr_file.write(f"{args[1]} filter=gclfs diff=gclfs merge=gclfs -text\n")
 
 
 def sync(s, project_root):
@@ -38,6 +36,11 @@ def clone(args, s):
 
 
 def push(args, s):
+    os.system(f"git {parse_git_command(args)}")
+    sync(s, os.getcwd())
+
+
+def pull(args, s):
     os.system(f"git {parse_git_command(args)}")
     sync(s, os.getcwd())
 

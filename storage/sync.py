@@ -24,4 +24,6 @@ class CloudSync:
 
     def s3_sync(self):
         pr = self.project_root
+        s3 = S3Client()
+        s3.client()
         pass
