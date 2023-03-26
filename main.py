@@ -7,20 +7,17 @@ from gclfs.commands import default, track, clone, push, pull
     ignore_unknown_options=True,
     allow_extra_args=True,
 ))
-@click.option('-s',
-              is_flag=True,
-              show_default=True,
-              default=True,
-              help="AWS S3 Storage")
+@click.option('--storage', default="s3", show_default=True)
 @click.pass_context
-def cli(ctx, s):
+def cli(ctx, storage):
     commands = {
-        "track": track,
         "clone": clone,
         "push": push,
         "pull": pull,
     }
-    if ctx.args[0] in commands:
-        commands.get(ctx.args[0])(ctx.args)
+    if ctx.args[0] == "track":
+        track(ctx.args)
+    elif ctx.args[0] in commands:
+        commands.get(ctx.args[0])(ctx.args, storage)
     else:
         default(ctx.args)
