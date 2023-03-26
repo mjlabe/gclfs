@@ -1,6 +1,6 @@
 import click
 
-from gclfs.commands import handle_command, track
+from gclfs.commands import default, track, clone, push
 
 
 @click.command(name='ctx', context_settings=dict(
@@ -16,8 +16,10 @@ from gclfs.commands import handle_command, track
 def cli(ctx, s):
     commands = {
         "track": track,
+        "clone": clone,
+        "push": push,
     }
     if ctx.args[0] in commands:
         commands.get(ctx.args[0])(ctx.args)
     else:
-        handle_command(ctx.args, s)
+        default(ctx.args)
