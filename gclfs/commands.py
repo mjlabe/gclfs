@@ -22,7 +22,7 @@ def track(args):
 
 
 def sync(project_root, storage, method):
-    print(f"Syncing files with {storage}")
+    print(f"Syncing files with {storage}...")
     cs = CloudSync(project_root, storage)
     cs.cloud_sync(project_root, method)
 
@@ -45,4 +45,5 @@ def pull(args, storage):
 
 
 def default(args):
-    parse_git_command(args)
+    command = " ".join(args)
+    os.system(f"git {command}")

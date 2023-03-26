@@ -1,4 +1,5 @@
 import os
+import sys
 from configparser import ConfigParser
 
 
@@ -18,7 +19,6 @@ class CloudSync:
         :param method:
         :return:
         """
-        print("upload")
         cloud_provider = {
             "s3": self.s3_sync
         }
@@ -32,12 +32,15 @@ class CloudSync:
             for line in attrs:
                 includes += f"--include {line.split(' ')[0]}"
 
+        if not includes:
+            sys.exit('WARNING: No files tracked. Track files with `gcl track "*.<ext>"`.')
+
         profile = self.config.get("s3", "profile", fallback="gclfs")
         bucket = self.config.get("s3", "bucket")
 
         if method == "push":
-            os.system(f"aws s3 sync {project_root} s3://{bucket}/ --profile {profile} {includes}")
+            os.system(f"aws s3 sync '{project_root}' s3://{bucket}/ --profile {profile} {includes}")
         elif method == "pull":
-            os.system(f"aws s3 sync s3://{bucket}/ {project_root}  --profile {profile} {includes}")
+            os.system(f"aws s3 sync s3://{bucket}/ '{project_root}' --profile {profile} {includes}")
         else:
             raise Exception("Unknown sync method")

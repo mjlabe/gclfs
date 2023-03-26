@@ -6,11 +6,12 @@ Git LFS for large files that need cloud storage.
 
 ### AWS S3
 
-1. Create an [S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) and 
+1. [Install AWS CLI](https://docs.aws.amazon.com/cli/latest/userguide/getting-started-install.html).
+2. Create an [S3 bucket](https://docs.aws.amazon.com/AmazonS3/latest/userguide/create-bucket-overview.html) and 
 [AWS access keys](https://docs.aws.amazon.com/IAM/latest/UserGuide/getting-started.html#gs-get-keys).
-2. Put the access keys in `~/.aws/credentials` as described [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html)
+3. Put the access keys in `~/.aws/credentials` as described [here](https://docs.aws.amazon.com/cli/latest/userguide/cli-configure-files.html). 
 Note, the profile used by gclfs is `gclfs`. This can be overridden in `gclfs.config`. See example below.
-3. Add bucket name to `gclfs.config`.
+4. Add bucket name to `gclfs.config`.
 
 Example credentials file:
 
@@ -41,7 +42,7 @@ To track files with a specific extension that will be uploaded to cloud storage,
 
 For example, to track wav files:
 
-`gcl track *.wav`
+`gcl track "*.wav"`
 
 This adds the extension to `.gitattributes`. When pushing to remote repo, this will sync all wav files to S3.
 
@@ -57,7 +58,7 @@ Your normal git commands work here and a remote git repo should be setup as usua
 
 `gcl init` (initialize repo)
 
-`gcl track *.wav` (track wav files)
+`gcl track "*.wav"` (track wav files)
 
 `gcl add .` (add files to commit)
 
