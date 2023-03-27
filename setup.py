@@ -11,6 +11,7 @@ setup(
     version='0.1.0',
     description='Git LFS for large files that need cloud storage.',
     long_description=readme(),
+    long_description_content_type='text/markdown',
     license='MIT',
     url='https://github.com/mjlabe/gclfs',
     author='Marc LaBelle',
