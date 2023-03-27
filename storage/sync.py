@@ -1,6 +1,7 @@
 import os
 import sys
 from configparser import ConfigParser
+from pathlib import Path
 
 from core.strings import slugify
 
@@ -8,7 +9,7 @@ from core.strings import slugify
 class CloudSync:
     def __init__(self, project_root, provider, ):
         self.config = ConfigParser()
-        self.config.read("gclfs.config")
+        self.config.read(str(Path(project_root, "gclfs.config")))
         self.provider = provider
         self.project_root = project_root
         if self.provider == "s3":
@@ -28,11 +29,11 @@ class CloudSync:
 
     def s3_sync(self, project_root, method):
         includes = ""
-        with open(".gitattributes", "a+") as attr_file:
+        with open(Path(project_root, ".gitattributes"), "a+") as attr_file:
             attr_file.seek(0)
             attrs = attr_file.readlines()
             for line in attrs:
-                includes += f"--include {line.split(' ')[0]} "
+                includes = includes + '--include ' + f'"{line.split(" ")[0]}" '
 
         if not includes:
             sys.exit('WARNING: No files tracked. Track files with `gcl track "*.<ext>"`.')
@@ -42,9 +43,9 @@ class CloudSync:
 
         if method == "push":
             os.system(
-                f'aws s3 sync "{project_root}" s3://{bucket}/{slugify(project_root.split("/")[-1])} --profile {profile} --exclude "*" {includes}')
+                f'aws s3 sync "{project_root}/" s3://{bucket}/{str(slugify(project_root).split("/")[-1])}/ --profile {profile} --exclude "*" {includes}')
         elif method == "pull":
             os.system(
-                f'aws s3 sync s3://{bucket}/{slugify(project_root.split("/")[-1])} "{project_root}" --profile {profile} --exclude "*" {includes}')
+                f'aws s3 sync s3://{bucket}/{slugify(str(project_root).split("/")[-1])}/ "{project_root}/" --profile {profile} --exclude "*" {includes}')
         else:
             raise Exception("Unknown sync method")

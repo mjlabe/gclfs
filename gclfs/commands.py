@@ -7,8 +7,9 @@ from storage.sync import CloudSync
 def parse_git_command(args):
     command = ""
     for arg in args:
-        command += f'{arg} ' if " " not in arg else f'"{arg}" '
-    return command
+        if arg:
+            command += f'{arg} ' if " " not in arg else f'"{arg}" '
+    return command.strip()
 
 
 def track(args):

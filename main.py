@@ -23,4 +23,4 @@ def cli(ctx, storage):
         else:
             default(ctx.args)
     except Exception as error:
-        print(f'ERROR: Command "{" ".join(ctx.args)}" not recognized.')
+        print(f'ERROR: Command "{" ".join(ctx.args)}" not recognized. {error}')
