@@ -1,4 +1,3 @@
-import os
 import datetime
 import logging
 from configparser import ConfigParser
