@@ -52,7 +52,6 @@ class CloudSync:
         bucket = self.config.get("s3", "bucket")
 
         if method == "push":
-            print(f'aws s3 sync "{project_root}/" s3://{bucket}/{slugify(str(project_root).split("/")[-1])}/ --profile {profile} --exclude "*" {includes_str} {excludes_str}')
             os.system(
                 f'aws s3 sync "{project_root}/" s3://{bucket}/{slugify(str(project_root).split("/")[-1])}/ --profile {profile} --exclude "*" {includes_str} {excludes_str}')
         elif method == "pull":
