@@ -8,7 +8,7 @@ def readme():
 
 setup(
     name='gclfs',
-    version='0.1.0',
+    version='0.1.1',
     description='Git LFS for large files that need cloud storage.',
     long_description=readme(),
     long_description_content_type='text/markdown',
