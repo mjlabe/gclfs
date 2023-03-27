@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 def readme():
@@ -16,7 +16,7 @@ setup(
     url='https://github.com/mjlabe/gclfs',
     author='Marc LaBelle',
     keywords=['GIT', 'LFS', 'CLOUD', 'STORAGE', 'AWS', 'S3', ],
-    py_modules=['gclfs'],
+    packages=find_packages(),
     install_requires=[
         'boto3 >= 1, <= 2',
         'click >= 8, <= 9'
@@ -24,8 +24,8 @@ setup(
     python_requires='>=3.6, <4',
     entry_points={
         'console_scripts': [
-            'gcl = src.main:cli',
-            'gclfs = src.main:cli',
+            'gcl = src.gclfs.main:cli',
+            'gclfs = src.gclfs.main:cli',
         ],
     },
     classifiers=[
