@@ -28,12 +28,22 @@ class CloudSync:
         cloud_provider.get(self.provider)(project_root, method)
 
     def s3_sync(self, project_root, method):
-        includes = ""
+        includes = []
+        includes_str = ""
         with open(Path(project_root, ".gitattributes"), "a+") as attr_file:
             attr_file.seek(0)
             attrs = attr_file.readlines()
             for line in attrs:
-                includes = includes + '--include ' + f'"{line.split(" ")[0]}" '
+                includes.append(f'{line.split(" ")[0]}')
+                includes_str = includes_str + '--include ' + f'"{line.split(" ")[0]}" '
+
+        excludes_str = ""
+        with open(Path(project_root, ".gitignore"), "a+") as ignore_file:
+            ignore_file.seek(0)
+            ignores = ignore_file.readlines()
+            for ignore in ignores:
+                if ignore.strip() not in includes:
+                    excludes_str = excludes_str + '--exclude ' + f'"{ignore.split(" ")[0].strip().replace("/", "")}/*" '
 
         if not includes:
             sys.exit('WARNING: No files tracked. Track files with `gcl track "*.<ext>"`.')
@@ -42,10 +52,11 @@ class CloudSync:
         bucket = self.config.get("s3", "bucket")
 
         if method == "push":
+            print(f'aws s3 sync "{project_root}/" s3://{bucket}/{slugify(str(project_root).split("/")[-1])}/ --profile {profile} --exclude "*" {includes_str} {excludes_str}')
             os.system(
-                f'aws s3 sync "{project_root}/" s3://{bucket}/{str(slugify(project_root).split("/")[-1])}/ --profile {profile} --exclude "*" {includes}')
+                f'aws s3 sync "{project_root}/" s3://{bucket}/{slugify(str(project_root).split("/")[-1])}/ --profile {profile} --exclude "*" {includes_str} {excludes_str}')
         elif method == "pull":
             os.system(
-                f'aws s3 sync s3://{bucket}/{slugify(str(project_root).split("/")[-1])}/ "{project_root}/" --profile {profile} --exclude "*" {includes}')
+                f'aws s3 sync s3://{bucket}/{slugify(str(project_root).split("/")[-1])}/ "{project_root}/" --profile {profile} --exclude "*" {includes_str} {excludes_str}')
         else:
             raise Exception("Unknown sync method")
