@@ -1,7 +1,7 @@
 import os
 from pathlib import Path
 
-from src.storage.sync import CloudSync
+from src.gclfs.storage.sync import CloudSync
 
 
 def parse_git_command(args):

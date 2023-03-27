@@ -1,4 +1,4 @@
-from setuptools import setup
+from setuptools import setup, find_packages
 
 
 def readme():
@@ -8,14 +8,15 @@ def readme():
 
 setup(
     name='gclfs',
-    version='0.1.0',
+    version='0.1.1',
     description='Git LFS for large files that need cloud storage.',
     long_description=readme(),
+    long_description_content_type='text/markdown',
     license='MIT',
     url='https://github.com/mjlabe/gclfs',
     author='Marc LaBelle',
     keywords=['GIT', 'LFS', 'CLOUD', 'STORAGE', 'AWS', 'S3', ],
-    py_modules=['gclfs'],
+    packages=find_packages(),
     install_requires=[
         'boto3 >= 1, <= 2',
         'click >= 8, <= 9'
@@ -23,8 +24,8 @@ setup(
     python_requires='>=3.6, <4',
     entry_points={
         'console_scripts': [
-            'gcl = src.main:cli',
-            'gclfs = src.main:cli',
+            'gcl = src.gclfs.main:cli',
+            'gclfs = src.gclfs.main:cli',
         ],
     },
     classifiers=[

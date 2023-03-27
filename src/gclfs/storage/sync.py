@@ -3,7 +3,7 @@ import sys
 from configparser import ConfigParser
 from pathlib import Path
 
-from src.core.strings import slugify
+from src.gclfs.core.strings import slugify
 
 
 class CloudSync:

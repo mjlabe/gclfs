@@ -1,6 +1,6 @@
 import click
 
-from src.gclfs.commands import default, track, clone, push, pull
+from src.gclfs.commands.commands import default, track, clone, push, pull
 
 
 @click.command(name='ctx', context_settings=dict(
